@@ -1,13 +1,14 @@
 package umc.week07.demo.apiPayload.exception;
 
-
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,12 +19,14 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import umc.week07.demo.apiPayload.ApiResponse;
 import umc.week07.demo.apiPayload.code.ErrorReasonDTO;
 import umc.week07.demo.apiPayload.code.status.ErrorStatus;
+
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
 
 @Slf4j
 @RestControllerAdvice(annotations = {RestController.class})
+@Order
 public class ExceptionAdvice extends ResponseEntityExceptionHandler {
 
 
@@ -38,25 +41,10 @@ public class ExceptionAdvice extends ResponseEntityExceptionHandler {
     }
 
 
-//    @Override
-//    public ResponseEntity<Object> handleMethodArgumentNotValid(
-//            MethodArgumentNotValidException e, HttpHeaders headers, HttpStatus status, WebRequest request) {
-//
-//        Map<String, String> errors = new LinkedHashMap<>();
-//
-//        e.getBindingResult().getFieldErrors().stream()
-//                .forEach(fieldError -> {
-//                    String fieldName = fieldError.getField();
-//                    String errorMessage = Optional.ofNullable(fieldError.getDefaultMessage()).orElse("");
-//                    errors.merge(fieldName, errorMessage, (existingErrorMessage, newErrorMessage) -> existingErrorMessage + ", " + newErrorMessage);
-//                });
-//
-//        return handleExceptionInternalArgs(e,HttpHeaders.EMPTY,ErrorStatus.valueOf("_BAD_REQUEST"),request,errors);
-//    }
-
-
     @Override
-    public ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException e, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
+    public ResponseEntity<Object> handleMethodArgumentNotValid(
+            MethodArgumentNotValidException e, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
+
         Map<String, String> errors = new LinkedHashMap<>();
 
         e.getBindingResult().getFieldErrors().stream()
@@ -134,3 +122,4 @@ public class ExceptionAdvice extends ResponseEntityExceptionHandler {
         );
     }
 }
+

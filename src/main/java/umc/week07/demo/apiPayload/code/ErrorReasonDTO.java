@@ -2,10 +2,12 @@ package umc.week07.demo.apiPayload.code;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 
 @Getter
 @Builder
+
 public class ErrorReasonDTO {
     private HttpStatus httpStatus;
 
